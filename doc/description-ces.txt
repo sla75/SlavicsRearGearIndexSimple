@@ -5,3 +5,10 @@ Pokud je chybný překlad, omluvte mě a prosím kontaktujte mě se správným v
 
 sla75@seznam.cz
 https://github.com/sla75/SlavicsRearGearIndexSimple/issues
+
+Zobrazení:
+Value
+    xx - No connect AntPlus.ShiftingStatus
+Label
+    .label. - Search AntPlus gear device
+    ?label? - Unknown status gear device
