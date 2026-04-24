@@ -1,4 +1,5 @@
 import Toybox.Activity;
+import Toybox.AntPlus;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.Math;
@@ -6,20 +7,23 @@ import Toybox.System;
 import Toybox.WatchUi;
 
 class SlavicsGearRearView extends SlavicsSimpleDataField {
-    private static const BATTSTATUSCOLOR = [0,Graphics.COLOR_DK_GREEN,Graphics.COLOR_DK_GREEN,Graphics.COLOR_DK_GREEN,Graphics.COLOR_ORANGE,Graphics.COLOR_RED,0,Graphics.COLOR_DK_RED,Graphics.COLOR_LT_GRAY] as Array<ColorType>;
-    private static const BATTERY_STATUS = ["0","NEW","GOOD","OK","LOW","CRITICAL","Unknown","INVALID","CNT"];
+    private static const BATTERY_STATUS_COLOR = [0,Graphics.COLOR_DK_GREEN,Graphics.COLOR_DK_GREEN,Graphics.COLOR_DK_GREEN,Graphics.COLOR_ORANGE,Graphics.COLOR_RED,0,Graphics.COLOR_DK_RED,Graphics.COLOR_LT_GRAY] as Array<ColorType>;
+    private static const BATTERY_STATUS_TEXT = ["0","New","Good","Ok","Low","Critical","Unknown","Invalid","Cnt"];
+    private static const BATTERY_NAME={0x01=>"FD",0x02=>"RD",0x03=>"LS",0x04=>"RS"} as Dictionary<Number,String>;
+    private var batteries=[] as Array<BatteryData>;
+    typedef BatteryData as {
+            :identifier as Number,
+            :name as String,
+            :batteryStatus as Number,
+            :color as Graphics.ColorType,
+        };
 
     private var teethsLabel=new Text({
             :color=>Graphics.COLOR_DK_GRAY,
             :font=>Graphics.FONT_SMALL,
             :justification=>Graphics.TEXT_JUSTIFY_LEFT,
         });
-    private var batteryLabel=new Text({
-            :color=>Graphics.COLOR_DK_GRAY,
-            :font=>Graphics.FONT_TINY,
-            :justification=>Graphics.TEXT_JUSTIFY_RIGHT,
-        });
-        private var unitTeeths as String;
+    private var unitTeeths as String;
 
     function initialize() {
         System.println("SlavicsGearRearView.initialize()");
@@ -32,8 +36,6 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
         SlavicsSimpleDataField.onLayout(dc);
         teethsLabel.locX=self.rim;
         teethsLabel.locY=self.labelLine;
-        batteryLabel.locX=dc.getWidth()-rim;
-        batteryLabel.locY=dc.getHeight()-rim-Graphics.getFontAscent(Graphics.FONT_TINY);
     }
     /***/
     function onShow() {
@@ -59,19 +61,22 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
             }
             batteryLabel.setColor(System.getDeviceSettings().isNightModeEnabled?Graphics.COLOR_DK_GRAY:Graphics.COLOR_LT_GRAY);
             var ids=bikeShift.getComponentIdentifiers() as Array<Number> or Null;
-            var bt="";
+            batteries=[] as Array<BatteryData>;
             if(ids!=null){
                 for(var i=0;i<ids.size();i++){
                     var id=ids[i];
                     var bs=bikeShift.getBatteryStatus(id);
-                    if(bs!=null){
-                        bt+=" "+BATTERY_STATUS[bs];
-                    }
+                    bs.batteryStatus=bs.batteryStatus==null?AntPlus.BATT_STATUS_INVALID:bs.batteryStatus;
+                    var b={
+                        :identifier=>id,
+                        :name=>BATTERY_NAME.hasKey(id)?BATTERY_NAME.get(id):id.format("%X"),
+                        :batteryStatus=>bs.batteryStatus==null?6:BATTERY_STATUSES.indexOf(bs.batteryStatus),
+                        :color=>BATTERY_STATUS_COLOR[bs.batteryStatus]
+                        //:statusString=>BATTERY_STATUS_COLOR[];
+                    } as BatteryData;
+                    batteries.add(b);
                 }
             }
-            batteryLabel.setText(bt);
-        } else {
-            batteryLabel.setText("Battery?");
         }
 
         var ss=bikeShift.getShiftingStatus() as AntPlus.ShiftingStatus;
@@ -89,7 +94,17 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
             setTextValue("--");
         }
     }
+    public static const STATUSES =[null,
+                AntPlus.BATT_STATUS_NEW,
+                AntPlus.BATT_STATUS_GOOD,
+                AntPlus.BATT_STATUS_OK,
+                AntPlus.BATT_STATUS_LOW,
+                AntPlus.BATT_STATUS_CRITICAL,
+                null,
+                AntPlus.BATT_STATUS_INVALID,
+                AntPlus.BATT_STATUS_CNT,
 
+            ] as Array<BatteryStatusValue>;
     (:debug)
     function compute(info as Activity.Info) as Void {
         SlavicsSimpleDataField.compute(info);
@@ -103,18 +118,28 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
             self.setTextValue((System.getClockTime().sec/3f).format("%0.1f")+"d");
             teethsLabel.setText(Math.rand()%51+unitTeeths);
         }
-        batteryLabel.setColor(System.getDeviceSettings().isNightModeEnabled?Graphics.COLOR_DK_GRAY:Graphics.COLOR_LT_GRAY);
         var ids=[0x01,0x03] as Array<Number> or Null;
-        var bt="";
+        batteries=[] as Array<BatteryData>;
         if(ids!=null){
             for(var i=0;i<ids.size();i++){
-                bt+=" "+BATTERY_STATUS[Math.rand()%8];
+                var bs=new BatteryStatus();
+                bs.batteryStatus=System.getClockTime().sec==13?null:(1+Math.rand()%7);
+                bs.batteryVoltage=System.getClockTime().sec/7f;
+                bs.operatingTime=System.getClockTime().min*60+System.getClockTime().sec;
+                
+                var b={
+                        :identifier=>ids[i],
+                        :name=>BATTERY_NAME.hasKey(ids[i])?BATTERY_NAME.get(ids[i]):ids[i].format("%X"),
+                        :batteryStatus=>bs.batteryStatus==null?AntPlus.BATT_STATUS_INVALID:bs.batteryStatus,
+                        :color=>BATTERY_STATUS_COLOR[bs.batteryStatus==null?0:bs.batteryStatus]
+                        //:statusString=>BATTERY_STATUS_COLOR[];
+                    } as BatteryData;
+                batteries.add(b);
             }
         }
-        batteryLabel.setText(bt);
+        //batteryLabel.setText(bt);
     }
     
-
     // Display the value you computed here. This will be called
     // once a second when the data field is visible.
     
@@ -122,6 +147,35 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
         System.println("SlavicsGearRearView.onUpdate()");
         SlavicsSimpleDataField.onUpdate(dc);
         teethsLabel.draw(dc);
-        batteryLabel.draw(dc);
+        if(batteries.size()>0){
+            var bLocX=dc.getWidth()-rim;
+            var bLocY=dc.getHeight()-rim-Graphics.getFontAscent(Graphics.FONT_XTINY);
+            for(var i=0;i<batteries.size();i++){
+                var bd=(batteries as Array<BatteryData>)[i] as BatteryData;
+                System.println("sec="+System.getClockTime().sec);
+                System.println("bd.get(:batteryStatus)="+bd.get(:batteryStatus));
+                System.println("BATTERY_STATUS_TEXT="+BATTERY_STATUS_TEXT.toString());
+
+                dc.setColor(bd.get(:color),Graphics.COLOR_TRANSPARENT);                
+                dc.drawText(bLocX,bLocY,Graphics.FONT_XTINY,BATTERY_STATUS_TEXT[bd.get(:batteryStatus)],Graphics.TEXT_JUSTIFY_RIGHT);
+                bLocX-=dc.getTextWidthInPixels("."+BATTERY_STATUS_TEXT[bd.get(:batteryStatus)],Graphics.FONT_XTINY);
+                //dc.setColor(System.getDeviceSettings().isNightModeEnabled?Graphics.COLOR_LT_GRAY:Graphics.COLOR_DK_GRAY,Graphics.COLOR_TRANSPARENT);
+                dc.drawText(bLocX,bLocY,Graphics.FONT_XTINY,bd.get(:name),Graphics.TEXT_JUSTIFY_RIGHT);
+                bLocX-=dc.getTextWidthInPixels(bd.get(:name)+" ",Graphics.FONT_XTINY);
+                
+            }
+        }
+
     }
+    public static const BATTERY_STATUSES =[null,
+                AntPlus.BATT_STATUS_NEW,
+                AntPlus.BATT_STATUS_GOOD,
+                AntPlus.BATT_STATUS_OK,
+                AntPlus.BATT_STATUS_LOW,
+                AntPlus.BATT_STATUS_CRITICAL,
+                null,
+                AntPlus.BATT_STATUS_INVALID,
+                AntPlus.BATT_STATUS_CNT,
+
+            ] as Array<BatteryStatusValue>;
 }
