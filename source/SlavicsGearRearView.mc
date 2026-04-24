@@ -10,6 +10,7 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
     private static const BATTERY_STATUS_COLOR = [0,Graphics.COLOR_DK_GREEN,Graphics.COLOR_DK_GREEN,Graphics.COLOR_DK_GREEN,Graphics.COLOR_ORANGE,Graphics.COLOR_RED,0,Graphics.COLOR_DK_RED,Graphics.COLOR_LT_GRAY] as Array<ColorType>;
     private static const BATTERY_STATUS_TEXT = ["0","New","Good","Ok","Low","Critical","Unknown","Invalid","Cnt"];
     private static const BATTERY_NAME={0x01=>"FD",0x02=>"RD",0x03=>"LS",0x04=>"RS"} as Dictionary<Number,String>;
+    private var bikeShift=new AntPlus.Shifting(new AntPlus.ShiftingListener()) as AntPlus.Shifting;
     private var batteries=[] as Array<BatteryData>;
     typedef BatteryData as {
             :identifier as Number,
@@ -24,11 +25,13 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
             :justification=>Graphics.TEXT_JUSTIFY_LEFT,
         });
     private var unitTeeths as String;
+    private var label as String;
 
     function initialize() {
         System.println("SlavicsGearRearView.initialize()");
         SlavicsSimpleDataField.initialize();
         unitTeeths=Application.loadResource(Rez.Strings.unitTeeths);
+        label=Application.loadResource(Rez.Strings.label);
     }
 
     function onLayout(dc as Dc) as Void {
@@ -41,7 +44,7 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
     function onShow() {
         System.println("SlavicsGearRearView.onShow()");
         SlavicsSimpleDataField.onShow();
-        self.setTextLabel(Application.loadResource(Rez.Strings.label));
+        self.setTextLabel(label);
     }
     /***/
     (:release)
@@ -51,15 +54,15 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
         if(bsds!=null&&bsds.state!=null){
             switch(bsds.state){
                 case AntPlus.DEVICE_STATE_SEARCHING:
-                    self.setTextLabel(System.getClockTime().sec%2==0?"."+self.textLabel+".":".."+self.textLabel+"..");
+                    self.setTextLabel(System.getClockTime().sec%2==0?"  "+label+". ":"  "+label+"..");
                     break;
                 case AntPlus.DEVICE_STATE_TRACKING:
-                    self.setTextLabel(self.textLabel);
+                    self.setTextLabel(label);
                     break;
                 default:
-                    self.setTextLabel("?"+self.textLabel+"?");
+                    self.setTextLabel("?"+label+"?");
             }
-            batteryLabel.setColor(System.getDeviceSettings().isNightModeEnabled?Graphics.COLOR_DK_GRAY:Graphics.COLOR_LT_GRAY);
+            
             var ids=bikeShift.getComponentIdentifiers() as Array<Number> or Null;
             batteries=[] as Array<BatteryData>;
             if(ids!=null){
