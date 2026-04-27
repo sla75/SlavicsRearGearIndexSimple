@@ -7,9 +7,11 @@ import Toybox.System;
 import Toybox.WatchUi;
 
 class SlavicsGearRearView extends SlavicsSimpleDataField {
+
+    public static const BATTERY_STATUS_TEXT = ["0","New","Good","Ok","Low","Crit.","Unkn.","Inv.","Cnt"];
     private var rearShift=new RearShifting() as RearShifting;
     private var batteries=[] as Array<RearShifting.BatteryData>;
-
+    
     private var teethsLabel=new Text({
             :color=>Graphics.COLOR_DK_GRAY,
             :font=>Graphics.FONT_SMALL,
@@ -53,9 +55,7 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
                 default:
                     self.setTextLabel("?"+label+"?");
             }
-            
             batteries=rearShift.getBatteries();
-
         }
 
         var rds=rearShift.getRearDerailleurStatus() as AntPlus.DerailleurStatus;
@@ -91,19 +91,16 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
         SlavicsSimpleDataField.onUpdate(dc);
         teethsLabel.draw(dc);
         if(batteries.size()>0){
+            // Draw batteries
             var bLocX=dc.getWidth()-rim;
             var bLocY=dc.getHeight()-rim-Graphics.getFontAscent(Graphics.FONT_XTINY);
             for(var i=0;i<batteries.size();i++){
                 var bd=(batteries as Array<RearShifting.BatteryData>)[i] as RearShifting.BatteryData;
-                System.println("sec="+System.getClockTime().sec);
-                System.println("bd.get(:batteryStatus)="+bd.get(:batteryStatus));
-                System.println("BATTERY_STATUS_TEXT="+RearShifting.BATTERY_STATUS_TEXT.toString());
                 dc.setColor(bd.get(:color),Graphics.COLOR_TRANSPARENT);                
-                dc.drawText(bLocX,bLocY,Graphics.FONT_XTINY,RearShifting.BATTERY_STATUS_TEXT[bd.get(:batteryStatus)],Graphics.TEXT_JUSTIFY_RIGHT);
-                bLocX-=dc.getTextWidthInPixels("."+RearShifting.BATTERY_STATUS_TEXT[bd.get(:batteryStatus)],Graphics.FONT_XTINY);
+                dc.drawText(bLocX,bLocY,Graphics.FONT_XTINY,BATTERY_STATUS_TEXT[bd.get(:batteryStatus)],Graphics.TEXT_JUSTIFY_RIGHT);
+                bLocX-=dc.getTextWidthInPixels("."+BATTERY_STATUS_TEXT[bd.get(:batteryStatus)],Graphics.FONT_XTINY);
                 dc.drawText(bLocX,bLocY,Graphics.FONT_XTINY,bd.get(:name),Graphics.TEXT_JUSTIFY_RIGHT);
                 bLocX-=dc.getTextWidthInPixels(bd.get(:name)+" ",Graphics.FONT_XTINY);
-                
             }
         }
     }
