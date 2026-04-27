@@ -26,6 +26,7 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
         });
     private var unitTeeths as String;
     private var label as String;
+    private var lastIndex=-1 as Number;
 
     function initialize() {
         System.println("SlavicsGearRearView.initialize()");
@@ -40,14 +41,13 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
         teethsLabel.locX=self.rim;
         teethsLabel.locY=self.labelLine;
     }
-    /***/
+    
     function onShow() {
         System.println("SlavicsGearRearView.onShow()");
         SlavicsSimpleDataField.onShow();
         self.setTextLabel(label);
     }
-    /***/
-    private var lastIndex=-1 as Number;
+
     function compute(info as Activity.Info) as Void {
         SlavicsSimpleDataField.compute(info);
         var bsds=getDeviceState() as AntPlus.DeviceState;
@@ -76,7 +76,6 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
                         :name=>BATTERY_NAME.hasKey(id)?BATTERY_NAME.get(id):id.format("%X"),
                         :batteryStatus=>bs.batteryStatus==null?6:BATTERY_STATUSES.indexOf(bs.batteryStatus),
                         :color=>BATTERY_STATUS_COLOR[bs.batteryStatus]
-                        //:statusString=>BATTERY_STATUS_COLOR[];
                     } as BatteryData;
                     batteries.add(b);
                 }
@@ -100,7 +99,6 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
                 } else {
                     valueArea.setColor(Graphics.COLOR_LT_GRAY);
                     setTextValue("Inv.");
-                    //teethsLabel.setText("--"+unitTeeths);
                     teethsLabel.setText("");
                     lastIndex=-1;
                 }
