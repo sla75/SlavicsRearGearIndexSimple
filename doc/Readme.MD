@@ -49,20 +49,22 @@ git branch -d iss53
 |Edge850|420x600|6.0|56x56|21|28|F|
 |Edge1050|480x800|6.0|68x68|21|28|F|
 
-## Fonts
-### Edge1050
-PartNumber: 006-B4440-00
-Screen: 480x800
+## Group Fonts
+### GFA - Group Font A
+Edge840 PartNumber: 006-B4062-00 Screen: 246x322
+Edge540 PartNumber: xxx-xxxxx-xx Screen: 246x322
+EdgeMTB PartNumber: 006-B4655-00 Screen: 240x320
+
 |Font|Height|Ascent|Descent|
 |---:|---:|---:|---:|
-|FONT_XTINY|21|15|6|
-|FONT_TINY|28|20|8|
-|FONT_SMALL|33|24|9|
-|FONT_MEDIUM|38|27|11|
-|FONT_LARGE|61|44|17|
+|FONT_XTINY|11|8|3|
+|FONT_TINY|14|10|4|
+|FONT_SMALL|17|12|5|
+|FONT_MEDIUM|19|14|5|
+|FONT_LARGE|31|22|9|
 
-### Edge1040
-PartNumber: 006-B3843-00
+### GFC - Group Font C
+Edge1040 PartNumber: 006-B3843-00
 Screen: 282x470
 |Font|Height|Ascent|Descent|
 |---:|---:|---:|---:|
@@ -72,20 +74,10 @@ Screen: 282x470
 |FONT_MEDIUM|22|16|6|
 |FONT_LARGE|36|26|10|
 
-### Edge840
-PartNumber: 006-B4062-00
-Screen: 246x322
-|Font|Height|Ascent|Descent|
-|---:|---:|---:|---:|
-|FONT_XTINY|11|8|3|
-|FONT_TINY|14|10|4|
-|FONT_SMALL|17|12|5|
-|FONT_MEDIUM|19|14|5|
-|FONT_LARGE|31|22|9|
-
-### Edge850
-PartNumber: 006-B4634-00
-Screen: 420x600
+### GFF - Group Font F
+Edge1050 PartNumber: 006-B4440-00 Screen: 480x800
+Edge850 PartNumber: 006-B4634-00 Screen: 420x600
+Edge550 PartNumber: xxx-xxxxx-xx Screen: 420x600
 |Font|Height|Ascent|Descent|
 |---:|---:|---:|---:|
 |FONT_XTINY|21|15|6|

@@ -3,24 +3,24 @@ project.manifest = manifest.xml
 # Set compatibility edges 35x35
 #edge130.resourcePath = $(edge130.resourcePath);resources-edge-x40
 #edge130plus.resourcePath = $(edge130plus.resourcePath);resources-edge-x40
-edge530.resourcePath = $(edge530.resourcePath);resources-edge-x40
-edge540.resourcePath = $(edge540.resourcePath);resources-edge-x40
-edge830.resourcePath = $(edge830.resourcePath);resources-edge-x40
-edge840.resourcePath = $(edge840.resourcePath);resources-edge-x40
+edge530.resourcePath = $(edge530.resourcePath);resources-GLI35
+edge540.resourcePath = $(edge540.resourcePath);resources-GLI35
+edge830.resourcePath = $(edge830.resourcePath);resources-GLI35
+edge840.resourcePath = $(edge840.resourcePath);resources-GLI35
 
 # Set compatibility edges 68x68
-edge1050.resourcePath = $(edge1050.resourcePath);resources-edge-1050
+edge1050.resourcePath = $(edge1050.resourcePath);resources-GLI68
 
 # Set compatibility edges 56x56
-edge550.resourcePath = $(edge550.resourcePath);resources-edge-x50
-edge850.resourcePath = $(edge850.resourcePath);resources-edge-x50
+edge550.resourcePath = $(edge550.resourcePath);resources-GLI56
+edge850.resourcePath = $(edge850.resourcePath);resources-GLI56
 
 # Set compatibility edges 40x40
-edge1040.resourcePath = $(edge1040.resourcePath);resources-edge-1040
+edge1040.resourcePath = $(edge1040.resourcePath);resources-GLI40
 
 # Set compatibility edges 36x36
-edge1030.resourcePath = $(edge1030.resourcePath);resources-edge-1030
-edge1030plus.resourcePath = $(edge1030plus.resourcePath);resources-edge-1030
-edge1030bontrager.resourcePath = $(edge1030bontrager.resourcePath);resources-edge-1030
-edgemtb.resourcePath = $(edgemtb.resourcePath);resources-edge-1030
-edgeexplore2.resourcePath = $(edgeexplore2.resourcePath);resources-edge-1030
+edge1030.resourcePath = $(edge1030.resourcePath);resources-GLI36
+edge1030plus.resourcePath = $(edge1030plus.resourcePath);resources-GLI36
+edge1030bontrager.resourcePath = $(edge1030bontrager.resourcePath);resources-GLI36
+edgemtb.resourcePath = $(edgemtb.resourcePath);resources-GLI36
+edgeexplore2.resourcePath = $(edgeexplore2.resourcePath);resources-GLI36
