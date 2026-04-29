@@ -65,7 +65,20 @@ git branch -d iss53
 |FONT_MEDIUM|19|14|5|
 |FONT_LARGE|31|22|9|
 
-### GFC - Group Font C
+### *GFC - Group Font B*(A)
+|Device|PartNumber|Screen|
+|:---|:---:|:---:|
+|EdgeExplorer2|006-B4169-00|240x400|
+
+|Font|Height|Ascent|Descent|
+|---:|---:|---:|---:|
+|FONT_XTINY|12|10|2|
+|FONT_TINY|16|14|2|
+|FONT_SMALL|19|16|3|
+|FONT_MEDIUM|22|18|4|
+|FONT_LARGE|36|30|6|
+
+### *GFC - Group Font C*(A)
 |Device|PartNumber|Screen|
 |:---|:---:|:---:|
 |Edge1040|006-B3843-00|282x470|
