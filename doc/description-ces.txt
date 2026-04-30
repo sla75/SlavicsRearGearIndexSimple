@@ -1,7 +1,13 @@
 SlavicsRearGearIndexSimple
-Zobrazení aktuálního zařazeného pastorku na zadní přehazovačce. Index přehazovačky se bere z univerzálně z AntPlus (Di2, SRAM AXS,...). Aplikace je nezávislá na počtu pastorků.
+Zobrazení aktuálního zařazeného pastorku pouze na zadní přehazovačce. Index přehazovačky se bere z univerzálně z AntPlus (Di2, SRAM AXS,...).
+Aplikace je nezávislá na počtu pastorků. Zobrazení počtu zubů na pastorku je volitelné v Nastavení aplikace.
+Při změně řazení na jiný pastorek je barva šedivá. Krajní pastorky jsou zobrazeny tmavou červenou barvou.
 Lokalizace EN, DE, CZ, PL, SK, IT, FR, HU.
-Pokud je chybný překlad, omluvte mě a prosím kontaktujte mě se správným výrazem (V anglickém nebo českém jazyce). Děkuji Petr
+Pokud je chybný překlad, omluvte mě a prosím kontaktujte mě se správným výrazem (V anglickém nebo českém jazyce).
+
+Podporovaná zařízení Edge: 540, 840, 550, 850, 1040, 1050, MTB, Explore2
+
+Děkuji Petr
 
 sla75@seznam.cz
 https://github.com/sla75/SlavicsRearGearIndexSimple/issues

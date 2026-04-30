@@ -96,8 +96,8 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
             lastIndex=-2;
         }
     }
-    var battIcon=new BatteryIcon({:font=>WatchUi.loadResource(Rez.Fonts.BatteryMedium),:justification=>Graphics.TEXT_JUSTIFY_RIGHT});
-    var battFont=Graphics.FONT_SMALL;
+    var battIcon=new BatteryIcon({:font=>WatchUi.loadResource(Rez.Fonts.BatterySmall),:justification=>Graphics.TEXT_JUSTIFY_RIGHT});
+    var battFont=Graphics.FONT_TINY;
     public function onUpdate(dc as Dc) as Void {
         System.println("SlavicsGearRearView.onUpdate()");
         SlavicsSimpleDataField.onUpdate(dc);
@@ -109,49 +109,49 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
             
             var bLocX=dc.getWidth()-rim;
             var bLocY=dc.getHeight()-rim-Graphics.getFontAscent(battFont);
-            battIcon.locY=bLocY;
+            battIcon.locY=dc.getHeight()-rim-Graphics.getFontAscent(battIcon.getFont());
             for(var i=0;i<batteries.size();i++){
                 var bd=(batteries as Array<RearShifting.BatteryData>)[i] as RearShifting.BatteryData;
                 //dc.setColor(bd.get(:color),Graphics.COLOR_TRANSPARENT);                
                 //dc.drawText(bLocX,bLocY,font,BATTERY_STATUS_TEXT[bd.get(:batteryStatus)],Graphics.TEXT_JUSTIFY_RIGHT);
                 //bLocX-=dc.getTextWidthInPixels("."+BATTERY_STATUS_TEXT[bd.get(:batteryStatus)],font);
-                dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_TRANSPARENT);                
-                dc.drawText(bLocX,bLocY,battFont,bd.get(:name),Graphics.TEXT_JUSTIFY_RIGHT);
-                bLocX-=dc.getTextWidthInPixels(bd.get(:name),battFont);
+                dc.setColor(Graphics.COLOR_DK_GRAY,Graphics.COLOR_TRANSPARENT);                
+                dc.drawText(bLocX,bLocY,battFont,bd.get(:name)+" ",Graphics.TEXT_JUSTIFY_RIGHT);
+                bLocX-=dc.getTextWidthInPixels(bd.get(:name)+" ",battFont);
                 battIcon.locX=bLocX;
                 battIcon.compute(bd.get(:batteryStatus),false);
                 battIcon.draw(dc);
                 bLocX-=battIcon.getWidth(dc)+3;
             }
             /***
-            b.locX=bLocX;
-            b.compute(AntPlus.BATT_STATUS_NEW,true);
-            b.draw(dc);bLocX-=b.getWidth(dc);b.locX=bLocX;
-            b.compute(AntPlus.BATT_STATUS_GOOD,false);
-            b.draw(dc);bLocX-=b.getWidth(dc);b.locX=bLocX;
-            b.compute(AntPlus.BATT_STATUS_OK,false);
-            b.draw(dc);bLocX-=b.getWidth(dc);b.locX=bLocX;
-            b.compute(AntPlus.BATT_STATUS_LOW,false);
-            b.draw(dc);bLocX-=b.getWidth(dc);b.locX=bLocX;
-            b.compute(AntPlus.BATT_STATUS_INVALID,false);
-            b.draw(dc);bLocX-=b.getWidth(dc);b.locX=bLocX;
-            b.compute(AntPlus.BATT_STATUS_CRITICAL,false);
-            b.draw(dc);bLocX-=b.getWidth(dc);b.locX=bLocX;
-            b.compute(AntPlus.BATT_STATUS_CNT,false);
-            b.draw(dc);bLocX-=b.getWidth(dc);b.locX=bLocX;
-            /***
+            battIcon.locX=bLocX;
+            battIcon.compute(AntPlus.BATT_STATUS_NEW,true);
+            battIcon.draw(dc);bLocX-=battIcon.getWidth(dc);battIcon.locX=bLocX;
+            battIcon.compute(AntPlus.BATT_STATUS_GOOD,false);
+            battIcon.draw(dc);bLocX-=battIcon.getWidth(dc);battIcon.locX=bLocX;
+            battIcon.compute(AntPlus.BATT_STATUS_OK,false);
+            battIcon.draw(dc);bLocX-=battIcon.getWidth(dc);battIcon.locX=bLocX;
+            battIcon.compute(AntPlus.BATT_STATUS_LOW,false);
+            battIcon.draw(dc);bLocX-=battIcon.getWidth(dc);battIcon.locX=bLocX;
+            battIcon.compute(AntPlus.BATT_STATUS_INVALID,false);
+            battIcon.draw(dc);bLocX-=battIcon.getWidth(dc);battIcon.locX=bLocX;
+            battIcon.compute(AntPlus.BATT_STATUS_CRITICAL,false);
+            battIcon.draw(dc);bLocX-=battIcon.getWidth(dc);battIcon.locX=bLocX;
+            battIcon.compute(AntPlus.BATT_STATUS_CNT,false);
+            battIcon.draw(dc);bLocX-=battIcon.getWidth(dc);battIcon.locX=bLocX;
+            
             dc.setColor(Graphics.COLOR_LT_GRAY,Graphics.COLOR_TRANSPARENT);
             dc.drawLine(0,bLocY,dc.getWidth(),bLocY);
 
-            var fa=Graphics.getFontAscent(font);
+            var fa=Graphics.getFontAscent(battFont);
             dc.drawLine(bLocX,bLocY-fa,bLocX,bLocY+2*fa);
             dc.drawLine(0,bLocY+fa,dc.getWidth(),bLocY+fa);
-            dc.drawLine(0,bLocY+fa+Graphics.getFontDescent(font),dc.getWidth(),bLocY+fa+Graphics.getFontDescent(font));
+            dc.drawLine(0,bLocY+fa+Graphics.getFontDescent(battFont),dc.getWidth(),bLocY+fa+Graphics.getFontDescent(battFont));
             
             dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_TRANSPARENT);
-            dc.drawText(bLocX,bLocY,font,"TŤyq",Graphics.TEXT_JUSTIFY_RIGHT);
-            bLocX-=dc.getTextWidthInPixels("TŤyq",font);
-            dc.drawText(bLocX,bLocY,FBT,"0123456",Graphics.TEXT_JUSTIFY_RIGHT);
+            dc.drawText(bLocX,bLocY,battFont,"TŤyq",Graphics.TEXT_JUSTIFY_RIGHT);
+            bLocX-=dc.getTextWidthInPixels("TŤyq",battFont);
+            dc.drawText(bLocX,bLocY,battIcon.getFont(),"01023456",Graphics.TEXT_JUSTIFY_RIGHT);
             //bLocX-=dc.getTextWidthInPixels(bd.get(:name)+" ",Graphics.FONT_XTINY);
             /***/
         }

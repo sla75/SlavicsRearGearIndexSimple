@@ -4,12 +4,12 @@ import Toybox.Lang;
 import Toybox.WatchUi;
 
 class BatteryIcon extends Drawable {
-    private var font=null as Graphics.FontType;
+    private var fontBattery=null as Graphics.FontType;
     private var charge=false as Boolean;
     private var justify as Graphics.TextJustification;
     private var status=AntPlus.BATT_STATUS_CNT as AntPlus.BatteryStatusValue;
     public function initialize(params as Dictionary){
-        font=params[:font]!=null?params[:font]:Graphics.FONT_TINY;
+        self.fontBattery=params[:font]!=null?params[:font]:Graphics.FONT_TINY;
         justify=params[:justification]!=null?params[:justification]:Graphics.TEXT_JUSTIFY_LEFT;
         Drawable.initialize(params);
     }
@@ -37,10 +37,13 @@ class BatteryIcon extends Drawable {
         };
 
     public function setFont(font as Graphics.FontType) as Void{
-        self.font=font;
+        self.fontBattery=font;
+    }
+    public function getFont() as Graphics.FontType{
+        return self.fontBattery;
     }
     public function getWidth(dc as Dc) as Number{
-        return dc.getTextWidthInPixels(BATCHAR.get(status),font);
+        return dc.getTextWidthInPixels(BATCHAR.get(status),fontBattery);
     }
     public function compute(status as AntPlus.BatteryStatusValue,charge as Boolean) {
         self.charge=charge;
@@ -52,10 +55,10 @@ class BatteryIcon extends Drawable {
         System.println("Battery status="+status.toString());
         System.println("Battery char="+BATCHAR.get(status));
         dc.setColor(BATTERY_STATUS_COLOR[status],Graphics.COLOR_TRANSPARENT);
-        dc.drawText(self.locX,self.locY,font,BATCHAR.get(status),self.justify);
+        dc.drawText(self.locX,self.locY,fontBattery,BATCHAR.get(status),self.justify);
         if(charge){
             dc.setColor(Graphics.COLOR_RED,Graphics.COLOR_TRANSPARENT);
-            dc.drawText(self.locX,self.locY,font,"6",self.justify);
+            dc.drawText(self.locX,self.locY,fontBattery,"6",self.justify);
         }
     }
     
