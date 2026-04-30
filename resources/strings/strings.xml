@@ -4,4 +4,7 @@
     <string id="version" translatable="false">1.2604.23Test</string>
     <string id="label">RearDerailleur</string>
     <string id="unitTeeths">t</string>
+
+    <string id="property_version_title">Version</string>
+    <string id="property_showteeth_title">Show sprocket size</string>
 </strings>

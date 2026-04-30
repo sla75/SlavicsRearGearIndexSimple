@@ -59,12 +59,12 @@ class SlavicsSimpleDataField extends WatchUi.DataField {
     }
 
     public function setTextLabel(text as String or Null){
-        System.println("SlavicsSimpleDataField.setTextLabel('"+text+"')");
+        //System.println("SlavicsSimpleDataField.setTextLabel('"+text+"')");
         labelArea.setText(text!=null?text:"--");
     }
 
     public function setTextValue(text as String or Null){
-        System.println("SlavicsSimpleDataField.setTextValue('"+text+"')");
+        //System.println("SlavicsSimpleDataField.setTextValue('"+text+"')");
         valueArea.setText(text!=null?text:"--");
     }
     

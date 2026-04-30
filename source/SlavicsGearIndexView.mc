@@ -1,12 +1,13 @@
 import Toybox.Activity;
 import Toybox.AntPlus;
+import Toybox.Application;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.Math;
 import Toybox.System;
 import Toybox.WatchUi;
 
-class SlavicsGearRearView extends SlavicsSimpleDataField {
+class SlavicsGearIndexView extends SlavicsSimpleDataField {
 
     public static const BATTERY_STATUS_TEXT = ["0","New","Good","Ok","Low","Crit.","Unkn.","Inv.","Cnt"];
     private var rearShift=new RearShifting() as RearShifting;
@@ -26,6 +27,9 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
         SlavicsSimpleDataField.initialize();
         unitTeeths=Application.loadResource(Rez.Strings.unitTeeths);
         label=Application.loadResource(Rez.Strings.label);
+        Properties.setValue("property_version",Application.loadResource(Rez.Strings.version));
+        Properties.setValue("property_showteeth",Properties.getValue("property_showteeth")==null?true:Properties.getValue("property_showteeth") as Boolean);
+        handleSettingUpdate();
     }
 
     function onLayout(dc as Dc) as Void {
@@ -33,6 +37,7 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
         SlavicsSimpleDataField.onLayout(dc);
         teethsLabel.locX=self.rim;
         teethsLabel.locY=self.labelLine;
+
         /***
         System.println("PartNumber: "+System.getDeviceSettings().partNumber);
         System.println("Screen: "+dc.getWidth()+"x"+dc.getHeight());
@@ -45,13 +50,17 @@ class SlavicsGearRearView extends SlavicsSimpleDataField {
         System.println("|FONT_LARGE|"+Graphics.getFontHeight(Graphics.FONT_LARGE)+"|"+Graphics.getFontAscent(Graphics.FONT_LARGE)+"|"+Graphics.getFontDescent(Graphics.FONT_LARGE)+"|");
         /***/
     }
-    
+    public function handleSettingUpdate() as Void {
+        System.println("SlavicsGearRearView.onSettingsChanged()");
+        teethsLabel.setVisible(Properties.getValue("property_showteeth") as Boolean);
+    }
+    /***
     function onShow() {
         System.println("SlavicsGearRearView.onShow()");
         SlavicsSimpleDataField.onShow();
         self.setTextLabel(label);
     }
-
+    /***/
     function compute(info as Activity.Info) as Void {
         SlavicsSimpleDataField.compute(info);
         var bsds=rearShift.getDeviceState() as AntPlus.DeviceState;

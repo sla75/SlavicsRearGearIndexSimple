@@ -1,4 +1,7 @@
 <strings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
     <string id="label">Cambio</string>
     <string id="unitTeeths">d</string>
+
+    <string id="property_version_title">Versione</string>
+    <string id="property_showteeth_title">Mostra la dimensione del pignone</string>
 </strings>

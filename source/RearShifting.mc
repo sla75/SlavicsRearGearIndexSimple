@@ -45,7 +45,7 @@ class RearShifting {
         } else if(System.getClockTime().sec>58){
             ds.state=AntPlus.DEVICE_STATE_DEAD;
         }
-        System.println("SlavicsGearRearView DEBUG DeviceSate="+ds.state.toString());
+        //System.println("SlavicsGearRearView DEBUG DeviceSate="+ds.state.toString());
         return ds;
     }
     (:release)
@@ -73,7 +73,7 @@ class RearShifting {
                 rearDerailleur.invalidOutboardShiftCount=Math.rand()%255;
                 rearDerailleur.shiftFailureCount=Math.rand()%255;
             }
-            System.println("SlavicsGearRearView DEBUG gearIndex="+rearDerailleur.gearIndex);
+            //System.println("SlavicsGearRearView DEBUG gearIndex="+rearDerailleur.gearIndex);
             return rearDerailleur;
         }
         return ss.rearDerailleur;
